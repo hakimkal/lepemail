@@ -8,6 +8,7 @@ import akka.http.scaladsl.server.Route
 import akka.util.Timeout
 import com.lepltd.core.EmailService.{ErrorResponse, Response, SendEmailResponse}
 import com.lepltd.core.EmailUtil.EmailHttpResponse
+import com.lepltd.core.util.Config
 import com.lepltd.core.util.Enum.ResponseStatus
 import com.lepltd.core.{EmailJsonProtocol, EmailService}
 import org.slf4j.Logger
@@ -19,7 +20,7 @@ import scala.util.{Failure, Success}
 
 class EmailRoutes(emailService: ActorRef[EmailService.Command])(implicit system: ActorSystem[_])
     extends EmailJsonProtocol {
-  implicit val timeout: Timeout = 10.seconds
+  implicit val timeout: Timeout = 25.seconds
   lazy val log: Logger = system.log
 
   implicit val ec: ExecutionContextExecutor = system.executionContext
@@ -29,8 +30,6 @@ class EmailRoutes(emailService: ActorRef[EmailService.Command])(implicit system:
       post {
         entity(as[EmailService.EmailModel]) { email =>
 
-
-          log.info("{}",request.headers)
           val futRes   = emailService.ask((replyTo: ActorRef[Response])=>EmailService.SendEmailCommand(email, replyTo))
 
           onComplete(futRes) {

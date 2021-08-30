@@ -15,6 +15,7 @@ object Config {
   val smtpPort: Int = config.getInt("lepemail.app.emailServerPort")
   val smtpUser: String = config.getString("lepemail.app.user")
   val smtpPassword: String = config.getString("lepemail.app.password")
+  val apiUserKeys: Seq[String] = config.getString("lepemail.app.apiKeys").split(",").toSeq
 
 
 }
