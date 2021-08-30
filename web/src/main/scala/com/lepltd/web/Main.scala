@@ -54,7 +54,7 @@ object Main {
         Behaviors
           .receiveMessagePartial[Message] { case Stop =>
             ctx.log.info(
-              "Stopping server http://{}",
+              "Stopping server http://{}:{}",
               binding.localAddress.getHostString,
               binding.localAddress.getPort
             )
@@ -71,7 +71,7 @@ object Main {
             throw new RuntimeException("Server failed to start", cause)
           case Started(binding)   =>
             ctx.log.info(
-              "Server online at http://{}",
+              "Server online at http://{}:{}",
               binding.localAddress.getHostString,
               binding.localAddress.getPort
             )
