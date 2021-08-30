@@ -27,7 +27,7 @@ lazy val web = (project in file("web"))
   .dependsOn(core)
   .settings(
     sharedSettings,
-    assembly / assemblyJarName := "lepemail" + version
+    assembly / assemblyJarName := "lepemail-1.0.0"
   )
 
 lazy val core = (project in file("core")).settings(
