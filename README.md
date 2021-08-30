@@ -7,5 +7,16 @@ To run this project run the following command on the terminal
 ``` 
  sbt compile
  sbt test 
- sbt "project web" ~run 
+ sbt "project web" "~run"
+ 
+ 
 ```
+
+alternatively you can just use this one line
+
+```
+ 
+sbt compile && sbt test && sbt "project web" "~run"
+
+```
+

@@ -1,9 +1,12 @@
 package com.lepltd.core
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
-import com.lepltd.core.EmailService.{ EmailModel, ErrorResponse, Response, SendEmailResponse }
+import com.lepltd.core.EmailService.{EmailModel, ErrorResponse, Response, SendEmailResponse}
 import com.lepltd.core.util.Enum.ResponseStatus
 import spray.json.DefaultJsonProtocol
+
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 trait EmailJsonProtocol extends SprayJsonSupport with DefaultJsonProtocol {
   // import the default encoders for primitive types (Int, String, Lists etc)
@@ -52,27 +55,10 @@ trait EmailJsonProtocol extends SprayJsonSupport with DefaultJsonProtocol {
 
   }
 
-  implicit val httpResponse = jsonFormat4(EmailHttpResponse)
+  implicit val emailHttpResponse     = jsonFormat4(EmailHttpResponse)
 
-  implicit object EmailServiceResponseJsonFormat extends RootJsonFormat[EmailService.Response] {
 
-    def write(a: Response) =
-      a match {
 
-        case e: ErrorResponse     =>
-          e.toJson
 
-      }
-
-    def read(value: JsValue) =
-      // If you need to read, you will need something in the
-      // JSON that will tell you which subclass to use
-      value.asJsObject.fields("") match {
-        case JsString("errorResponse") =>
-          value.convertTo[ErrorResponse]
-
-      }
-
-  }
 
 }

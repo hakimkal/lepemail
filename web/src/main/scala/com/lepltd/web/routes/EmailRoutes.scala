@@ -7,6 +7,8 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.util.Timeout
 import com.lepltd.core.EmailService.{ErrorResponse, Response, SendEmailResponse}
+import com.lepltd.core.EmailUtil.EmailHttpResponse
+import com.lepltd.core.util.Enum.ResponseStatus
 import com.lepltd.core.{EmailJsonProtocol, EmailService}
 import org.slf4j.Logger
 import spray.json.enrichAny
@@ -34,8 +36,14 @@ class EmailRoutes(emailService: ActorRef[EmailService.Command])(implicit system:
           onComplete(futRes) {
             case Success(result)  =>
               result match {
-                case resp: SendEmailResponse=> complete(resp.toJson)
-                case resp: ErrorResponse=> complete(resp.toJson)
+                case resp: SendEmailResponse=> complete(
+                  EmailHttpResponse(ResponseStatus.Success,"Email Sent Successfully",Some(ResponseStatus.Success.id),Some(resp.toJson))
+
+                )
+                case resp: ErrorResponse=> complete(
+
+                  EmailHttpResponse(ResponseStatus.BadRequest,"Failed",Some(ResponseStatus.BadRequest.id),Some(resp.toJson))
+                )
               }
 
             case Failure(exception) =>
