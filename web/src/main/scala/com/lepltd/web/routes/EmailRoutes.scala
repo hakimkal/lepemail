@@ -26,7 +26,8 @@ class EmailRoutes(emailService: ActorRef[EmailService.Command])(implicit system:
   implicit val ec: ExecutionContextExecutor = system.executionContext
 
   lazy val emailServiceRoutes: Route = extractRequest { request =>
-    path("send" / "email") {
+    path("send" / "email" / "request") {
+
       post {
         entity(as[EmailService.EmailModel]) { email =>
 

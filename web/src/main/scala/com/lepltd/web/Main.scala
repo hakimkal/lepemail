@@ -2,12 +2,11 @@ package com.lepltd.web
 
 
 import akka.actor.typed.scaladsl.Behaviors
-import akka.actor.typed.{ActorRef, ActorSystem, Behavior, PostStop}
+import akka.actor.typed.{ActorSystem, Behavior, PostStop}
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.Http.ServerBinding
 import akka.util.Timeout
 import com.lepltd.core.EmailService
-
 import com.lepltd.core.util.Config
 import com.lepltd.web.routes.EmailRoutes
 
@@ -55,7 +54,7 @@ object Main {
         Behaviors
           .receiveMessagePartial[Message] { case Stop =>
             ctx.log.info(
-              "Stopping server http://{}:{}",
+              "Stopping server http://{}",
               binding.localAddress.getHostString,
               binding.localAddress.getPort
             )
@@ -72,7 +71,7 @@ object Main {
             throw new RuntimeException("Server failed to start", cause)
           case Started(binding)   =>
             ctx.log.info(
-              "Server online at http://{}:{}",
+              "Server online at http://{}",
               binding.localAddress.getHostString,
               binding.localAddress.getPort
             )
