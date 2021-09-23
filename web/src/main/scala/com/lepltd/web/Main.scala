@@ -1,8 +1,7 @@
 package com.lepltd.web
 
-
 import akka.actor.typed.scaladsl.Behaviors
-import akka.actor.typed.{ActorSystem, Behavior, PostStop}
+import akka.actor.typed.{ ActorSystem, Behavior, PostStop }
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.Http.ServerBinding
 import akka.util.Timeout
@@ -12,15 +11,15 @@ import com.lepltd.web.routes.EmailRoutes
 
 import scala.concurrent.ExecutionContextExecutor
 import scala.concurrent.duration.DurationInt
-import scala.util.{Failure, Success}
+import scala.util.{ Failure, Success }
 
 object Main {
 
   sealed trait Message
 
-  private final case class StartFailed(cause: Throwable) extends Message
+  final private case class StartFailed(cause: Throwable) extends Message
 
-  private final case class Started(binding: ServerBinding) extends Message
+  final private case class Started(binding: ServerBinding) extends Message
 
   case object Stop extends Message
 
@@ -28,16 +27,10 @@ object Main {
     Behaviors.setup { ctx =>
       implicit val system = ctx.system
 
-
-
-      implicit val timeout: Timeout = 5.seconds
-      implicit val ec : ExecutionContextExecutor              = ctx.executionContext
+      implicit val timeout: Timeout             = 5.seconds
+      implicit val ec: ExecutionContextExecutor = ctx.executionContext
 
       val emailService = ctx.spawn(EmailService(), "email-service")
-
-
-
-
 
       val route = new EmailRoutes(emailService)
 
@@ -46,7 +39,7 @@ object Main {
       ctx.pipeToSelf(serverBinding) {
         case Success(binding) =>
           Started(binding)
-        case Failure(ex)      =>
+        case Failure(ex) =>
           StartFailed(ex)
       }
 
@@ -69,14 +62,14 @@ object Main {
         Behaviors.receiveMessage[Message] {
           case StartFailed(cause) =>
             throw new RuntimeException("Server failed to start", cause)
-          case Started(binding)   =>
+          case Started(binding) =>
             ctx.log.info(
               "Server online at http://{}:{}",
               binding.localAddress.getHostString,
               binding.localAddress.getPort
             )
 
-            if (wasStopped)
+            if(wasStopped)
               ctx.self ! Stop
             running(binding)
 

@@ -1,14 +1,14 @@
 package com.lepltd
 package core
 
-import akka.actor.typed.scaladsl.Behaviors
-import akka.actor.typed.{ ActorRef, Behavior }
-import courier._
-
 import javax.mail.internet.InternetAddress
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{ Failure, Success }
+
+import akka.actor.typed.scaladsl.Behaviors
+import akka.actor.typed.{ ActorRef, Behavior }
+import courier._
 
 import util.Config
 

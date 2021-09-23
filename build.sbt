@@ -1,9 +1,8 @@
-
 name := "lepemail"
 
 lazy val akkaHttpVersion = "10.2.6"
-lazy val akkaVersion = "2.6.16"
-lazy val courierVersion = "3.0.1"
+lazy val akkaVersion     = "2.6.16"
+lazy val courierVersion  = "3.0.1"
 
 lazy val sharedSettings = Seq(
   organization := "com.lepltd",
@@ -41,14 +40,19 @@ lazy val core = (project in file("core")).settings(
     "com.typesafe.akka" %% "akka-stream" % akkaVersion,
     "com.typesafe.akka" %% "akka-persistence-query" % akkaVersion,
     "ch.qos.logback" % "logback-classic" % "1.2.5",
-    "io.spray" %% "spray-json" % "1.3.6",
-
+    "io.spray" %% "spray-json" % "1.3.6"
   )
 )
 
 resolvers += "Sonatype release repository" at "https://oss.sonatype.org/content/repositories/releases/"
 
-Compile / scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked", "-Xlog-reflective-calls", "-Xlint")
+Compile / scalacOptions ++= Seq(
+  "-deprecation",
+  "-feature",
+  "-unchecked",
+  "-Xlog-reflective-calls",
+  "-Xlint"
+)
 
 // show full stack traces and test case durations
 Test / testOptions += Tests.Argument("-oDF")
@@ -67,4 +71,3 @@ ThisBuild / assemblyMergeStrategy := {
     oldStrategy(x)
 
 }
-

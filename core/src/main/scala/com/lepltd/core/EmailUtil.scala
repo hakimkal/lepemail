@@ -8,8 +8,7 @@ object EmailUtil {
   case class EmailHttpResponse(
     status: ResponseStatus.Value,
     description: String,
-    code: Option[Int] = None,
-    data: Option[JsValue] = None
-  )
+    code: Option[Int]     = None,
+    data: Option[JsValue] = None)
 
 }

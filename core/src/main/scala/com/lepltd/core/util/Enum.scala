@@ -2,17 +2,14 @@ package com.lepltd.core.util
 
 object Enum {
 
-
-
   object ResponseStatus extends Enumeration {
 
-    val NotFound         = Value(404)
+    val NotFound = Value(404)
 
     val DuplicateRequest = Value(205)
     val Success          = Value(200)
     val Created          = Value(201)
-    val BadRequest           = Value(400)
-
+    val BadRequest       = Value(400)
 
   }
 
